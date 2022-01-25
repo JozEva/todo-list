@@ -1,56 +1,32 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { Box, Container, Typography } from "@mui/material";
 import "./App.css";
+import Form from "./components/Form/Form";
+import Todos from "./components/Todos/Todos";
 
 const App = () => {
+
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
+  const [editTodo, setEditTodo] = useState(null);
 
-  const addTodo = () => {
-    const id = todos.length ? todos[todos.length - 1].id + 1 : 0;
-
-    const todo = {
-      id: id,
-      value: input,
-    };
-
-    if (!input) return;
-
-    setTodos((oldList) => [...oldList, todo]);
-    setInput("");
-  };
-
-  const removeTodo = (id) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-
-    setTodos(updatedTodos);
-  };
-
-  console.log(todos)
+  console.log(todos);
   return (
     <Container>
       <Typography variant="h4" component="h1">
         title
       </Typography>
       <Box>
-        <TextField
-          label="Add todo..."
-          variant="standard"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+        <Form
+          input={input}
+          setInput={setInput}
+          todos={todos}
+          setTodos={setTodos}
+          editTodo={editTodo}
+          setEditTodo={setEditTodo}
         />
-        <Button variant="contained" onClick={addTodo}>
-          Add
-        </Button>
       </Box>
-      {todos.map((todo) => (
-        <Box key={todo.id}>
-          <p>{todo.value}</p>
-          <Button variant="contained" onClick={() => removeTodo(todo.id)}>
-            Delete
-          </Button>
-        </Box>
-      ))}
+      <Todos todos={todos} setTodos={setTodos} setEditTodo={setEditTodo} />
     </Container>
   );
 };
