@@ -1,7 +1,7 @@
 import React from "react";
 import { ListItem, Button, Box } from "@mui/material";
 
-const Todos = ({ todos, setTodos, setEditTodo }) => {
+const Todos = ({ todos, setTodos, editTodo, setEditTodo }) => {
   const completeTodo = (todo) => {
     setTodos(
       todos.map((item) => {
@@ -19,10 +19,14 @@ const Todos = ({ todos, setTodos, setEditTodo }) => {
     setTodos(updatedTodos);
   };
 
-  const editTodo = ({ id }) => {
+  const startEditingTodo = ({ id }) => {
     const findTodo = todos.find((todo) => todo.id === id);
 
     setEditTodo(findTodo);
+  };
+
+  const stopEditingTodo = () => {
+    setEditTodo(null);
   };
 
   return (
@@ -34,9 +38,18 @@ const Todos = ({ todos, setTodos, setEditTodo }) => {
             <Button variant="contained" onClick={() => completeTodo(todo)}>
               {!todo.completed ? "Done" : "Undone"}
             </Button>
-            <Button variant="contained" onClick={() => editTodo(todo)}>
-              Edit
-            </Button>
+            {!editTodo ? (
+              <Button
+                variant="contained"
+                onClick={() => startEditingTodo(todo)}
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={() => stopEditingTodo(todo)}>
+                Stop
+              </Button>
+            )}
             <Button variant="contained" onClick={() => removeTodo(todo.id)}>
               Delete
             </Button>

@@ -30,7 +30,12 @@ const App = () => {
           setEditTodo={setEditTodo}
         />
       </Box>
-      <Todos todos={todos} setTodos={setTodos} setEditTodo={setEditTodo} />
+      <Todos
+        todos={todos}
+        setTodos={setTodos}
+        setEditTodo={setEditTodo}
+        editTodo={editTodo}
+      />
     </Container>
   );
 };
