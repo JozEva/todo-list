@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, Button } from "@mui/material";
 import "./App.css";
 import Form from "./components/Form/Form";
 import Todos from "./components/Todos/Todos";
@@ -15,6 +15,13 @@ const App = () => {
   }, [todos]);
 
   console.log(todos);
+
+  const clearTodos = () => {
+    setTodos([]);
+  }
+
+  const tasksLeft = todos.length;
+
   return (
     <Container>
       <Typography variant="h4" component="h1">
@@ -36,6 +43,8 @@ const App = () => {
         setEditTodo={setEditTodo}
         editTodo={editTodo}
       />
+      <Typography >You have {tasksLeft} pending {tasksLeft === 1 ? "task" : "tasks"}</Typography>
+      <Button onClick={clearTodos}>Clear all</Button>
     </Container>
   );
 };
