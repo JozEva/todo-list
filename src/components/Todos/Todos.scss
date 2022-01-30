@@ -1,0 +1,31 @@
+.todos {
+
+  margin: 1rem 0;
+
+  &-todo {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    &:nth-child(2n + 1) {
+      background-color: #f1f1f1;
+    }
+  }
+
+  &-actions {
+    &--action {
+      transition: all 0.3s ease-in-out !important;
+      margin: 0 0.3rem;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  &-count {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+}

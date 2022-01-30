@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Typography, Button } from "@mui/material";
-import "./App.css";
+import { Container, Box, Divider } from "@mui/material";
 import Form from "./components/Form/Form";
 import Todos from "./components/Todos/Todos";
+import Header from "./components/Header/Header";
+import "./App.scss";
 
 const App = () => {
   const initialState = JSON.parse(localStorage.getItem("todos")) || [];
@@ -14,20 +15,14 @@ const App = () => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  console.log(todos);
-
-  const clearTodos = () => {
-    setTodos([]);
-  }
-
-  const tasksLeft = todos.length;
+  const defaultClassName = "board";
 
   return (
-    <Container>
-      <Typography variant="h4" component="h1">
-        title
-      </Typography>
-      <Box>
+    <Container className={defaultClassName}>
+      <Box className={`${defaultClassName}-header`}>
+        <Header />
+      </Box>
+      <Box className={`${defaultClassName}__list`}>
         <Form
           input={input}
           setInput={setInput}
@@ -36,15 +31,14 @@ const App = () => {
           editTodo={editTodo}
           setEditTodo={setEditTodo}
         />
+        <Divider />
+        <Todos
+          todos={todos}
+          setTodos={setTodos}
+          setEditTodo={setEditTodo}
+          editTodo={editTodo}
+        />
       </Box>
-      <Todos
-        todos={todos}
-        setTodos={setTodos}
-        setEditTodo={setEditTodo}
-        editTodo={editTodo}
-      />
-      <Typography >You have {tasksLeft} pending {tasksLeft === 1 ? "task" : "tasks"}</Typography>
-      <Button onClick={clearTodos}>Clear all</Button>
     </Container>
   );
 };

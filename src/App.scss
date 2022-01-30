@@ -1,0 +1,29 @@
+.board {
+  padding-bottom: 2rem;
+
+  svg:hover {
+    cursor: pointer;
+  }
+
+  &-header {
+    padding: 5rem 0;
+  }
+
+  &__list {
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+    padding: 1rem;
+    margin: auto;
+    width: 400px;
+    border-radius: 0.4rem;
+    box-shadow: 1px 1px 12px #00a2ff;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  .board {
+    &__list {
+      width: auto;
+    }
+  }
+}

@@ -1,5 +1,12 @@
 import React from "react";
-import { ListItem, Button, Box } from "@mui/material";
+import { ListItem, Button, Box, Typography, Divider } from "@mui/material";
+import EditOffIcon from "@mui/icons-material/EditOff";
+import EditIcon from "@mui/icons-material/Edit";
+import ClearIcon from "@mui/icons-material/Clear";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import { pink } from "@mui/material/colors";
+import "./Todos.scss";
 
 const Todos = ({ todos, setTodos, editTodo, setEditTodo }) => {
   const completeTodo = (todo) => {
@@ -19,8 +26,12 @@ const Todos = ({ todos, setTodos, editTodo, setEditTodo }) => {
     setTodos(updatedTodos);
   };
 
-  const startEditingTodo = ({ id }) => {
+  const startEditingTodo = ({id, completed}) => {
     const findTodo = todos.find((todo) => todo.id === id);
+
+    if (completed) {
+      return
+    }
 
     setEditTodo(findTodo);
   };
@@ -29,33 +40,65 @@ const Todos = ({ todos, setTodos, editTodo, setEditTodo }) => {
     setEditTodo(null);
   };
 
+  const clearTodos = () => {
+    setTodos([]);
+  };
+
+  const tasksLeft = todos.length;
+
+  const defaultClassName = "todos";
+
   return (
     <>
-      {todos.map((todo) => (
-        <ListItem key={todo.id}>
-          {todo.title}
-          <Box>
-            <Button variant="contained" onClick={() => completeTodo(todo)}>
-              {!todo.completed ? "Done" : "Undone"}
-            </Button>
-            {!editTodo ? (
-              <Button
-                variant="contained"
-                onClick={() => startEditingTodo(todo)}
-              >
-                Edit
-              </Button>
-            ) : (
-              <Button variant="contained" onClick={() => stopEditingTodo(todo)}>
-                Stop
-              </Button>
-            )}
-            <Button variant="contained" onClick={() => removeTodo(todo.id)}>
-              Delete
-            </Button>
-          </Box>
-        </ListItem>
-      ))}
+      <Box className={defaultClassName}>
+        {todos.map((todo) => (
+          <ListItem key={todo.id} className={`${defaultClassName}-todo`}>
+            <Typography className={`${defaultClassName}-title`}>
+              {todo.title}
+            </Typography>
+            <Box className={`${defaultClassName}-actions`}>
+              {!todo.completed ? (
+                <RadioButtonUncheckedIcon
+                  className={`${defaultClassName}-actions--action`}
+                  sx={{ color: pink[500] }}
+                  onClick={() => completeTodo(todo)}
+                />
+              ) : (
+                <CheckCircleOutlineIcon
+                  className={`${defaultClassName}-actions--action`}
+                  color="primary"
+                  onClick={() => completeTodo(todo)}
+                />
+              )}
+              {!editTodo ? (
+                <EditIcon
+                  className={`${defaultClassName}-actions--action`}
+                  color="primary"
+                  onClick={() => startEditingTodo(todo)}
+                />
+              ) : (
+                <EditOffIcon
+                  className={`${defaultClassName}-actions--action`}
+                  sx={{ color: pink[500] }}
+                  onClick={() => stopEditingTodo(todo)}
+                />
+              )}
+              <ClearIcon
+                className={`${defaultClassName}-actions--action`}
+                sx={{ color: pink[500] }}
+                onClick={() => removeTodo(todo.id)}
+              />
+            </Box>
+          </ListItem>
+        ))}
+      </Box>
+      <Divider />
+      <Box className={`${defaultClassName}-count`}>
+        <Typography>
+          You have {tasksLeft} pending {tasksLeft === 1 ? "task" : "tasks"}
+        </Typography>
+        <Button onClick={clearTodos}>Clear all</Button>
+      </Box>
     </>
   );
 };
