@@ -9,6 +9,7 @@ import { pink } from "@mui/material/colors";
 import "./Todos.scss";
 
 const Todos = ({ todos, setTodos, editTodo, setEditTodo }) => {
+
   const completeTodo = (todo) => {
     setTodos(
       todos.map((item) => {
@@ -18,6 +19,9 @@ const Todos = ({ todos, setTodos, editTodo, setEditTodo }) => {
         return item;
       })
     );
+    if (!todo.completed) {
+      setEditTodo(null)
+    }
   };
 
   const removeTodo = (id) => {
@@ -26,7 +30,7 @@ const Todos = ({ todos, setTodos, editTodo, setEditTodo }) => {
     setTodos(updatedTodos);
   };
 
-  const startEditingTodo = ({id, completed}) => {
+  const startEditingTodo = ({ id, completed }) => {
     const findTodo = todos.find((todo) => todo.id === id);
 
     if (completed) {
@@ -48,12 +52,14 @@ const Todos = ({ todos, setTodos, editTodo, setEditTodo }) => {
 
   const defaultClassName = "todos";
 
+  const completedTaskClassName = `${defaultClassName}-title--completed`
+
   return (
     <>
       <Box className={defaultClassName}>
         {todos.map((todo) => (
           <ListItem key={todo.id} className={`${defaultClassName}-todo`}>
-            <Typography className={`${defaultClassName}-title`}>
+            <Typography className={!todo.completed ? `${defaultClassName}-title` : completedTaskClassName}>
               {todo.title}
             </Typography>
             <Box className={`${defaultClassName}-actions`}>
